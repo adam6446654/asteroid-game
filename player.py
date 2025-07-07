@@ -3,9 +3,13 @@ import constants
 import pygame
 
 class Player(CircleShape.CircleShape):
+    containers = ()
     def __init__ (self,x,y):
-        super().__init__(x,y,constants.PLAYER_RADIUS)
+        pygame.sprite.Sprite.__init__(self)
+        CircleShape.CircleShape.__init__(self, x, y, constants.PLAYER_RADIUS)
         self.rotation = 0
+        for group in self.containers:
+            group.add(self)
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -27,7 +31,7 @@ class Player(CircleShape.CircleShape):
         if keys[pygame.K_a]:
             self.rotate(-1*dt)
         if keys[pygame.K_d]:
-            self.rotate(dt)
+            self.rotate(dt) 
         if keys[pygame.K_w]:
             self.move(dt)
         if keys[pygame.K_s]:
